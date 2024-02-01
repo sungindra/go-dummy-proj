@@ -2,6 +2,7 @@ package handler
 
 import (
 	"dummy/controller"
+	"dummy/controller/api"
 	"log"
 	"net/http"
 
@@ -22,7 +23,7 @@ func RouteHandler() {
 
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/model", func(r chi.Router) {
-			r.Get("/", nil)
+			r.Get("/", api.GetModels)
 		})
 	})
 
