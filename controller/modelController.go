@@ -17,5 +17,5 @@ func ListModel(w http.ResponseWriter, r *http.Request) {
 func GetModel(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	model := repository.GetModel(id)
-	w.Write([]byte("Model : " + model.Attribute1()))
+	w.Write([]byte("Model : " + model.Attribute1))
 }

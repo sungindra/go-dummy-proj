@@ -10,7 +10,7 @@ func GetModels() []model.Model {
 
 func GetModel(id string) model.Model {
 	var m model.Model
-	m.SetId(id)
-	m.SetAttribute1("some string")
+	m.Id = id
+	m.Attribute1 = "some string"
 	return m
 }
