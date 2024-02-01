@@ -9,7 +9,7 @@
    <h1>Models:</h1> 
     <ol>
     {{ range . }}
-        <li>{{ .Attribute1 }} ( {{ .Id }} )</li>
+        <li><a href="http://localhost:8080/cms/model/{{ .Id }}">{{ .Attribute1 }} ( {{ .Id }} )</a></li>
     {{ end }}
     </ol>
 </body>
