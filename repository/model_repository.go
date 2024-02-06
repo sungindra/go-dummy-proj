@@ -14,3 +14,7 @@ func GetModel(id string) model.Model {
 	m := mock.MockModel(id, "ASDASD")
 	return m
 }
+
+func DeleteModel(id string) {
+
+}

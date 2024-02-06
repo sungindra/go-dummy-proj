@@ -14,20 +14,21 @@ const (
 	user     = "postgres"
 	password = ""
 	dbname   = "dummydb"
+
+	idleTimeInSeconds = 30
+	idleConns         = 5
 )
 
-var DatabaseConnection *sql.DB
-
-func setupDatabase() {
+func setupDatabase() (*sql.DB, error) {
 	psqlConn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 
-	var err error
-	DatabaseConnection, err = sql.Open("postgres", psqlConn)
+	db, err := sql.Open("postgres", psqlConn)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
-	DatabaseConnection.SetConnMaxIdleTime(30 * time.Second)
-	DatabaseConnection.SetMaxIdleConns(5)
+	db.SetConnMaxIdleTime(idleTimeInSeconds * time.Second)
+	db.SetMaxIdleConns(idleConns)
 
+	return db, nil
 }
