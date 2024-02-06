@@ -1,21 +1,19 @@
 package handler
 
 import (
-	"database/sql"
+	"dummy/database"
+	"dummy/repository"
 	"log"
 	"net/http"
 )
 
-var DatabaseConnection *sql.DB
-
 func StartServer() {
 	var err error
-	DatabaseConnection, err = setupDatabase()
+	repository.Repository.DB, err = database.SetupDatabase()
+
 	if err != nil {
 		panic(err)
 	}
-
-	defer DatabaseConnection.Close()
 
 	r := handleRouting()
 	log.Fatal(http.ListenAndServe(":8080", r))
