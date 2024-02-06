@@ -10,6 +10,9 @@ import (
 )
 
 func RouteHandler() {
+	setupDatabase()
+	defer DatabaseConnection.Close()
+
 	r := chi.NewRouter()
 
 	r.Get("/", controller.Index)
