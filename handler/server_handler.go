@@ -10,7 +10,6 @@ import (
 func StartServer() {
 	var err error
 	repository.Repository.DB, err = database.SetupDatabase()
-
 	if err != nil {
 		panic(err)
 	}
