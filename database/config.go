@@ -22,8 +22,6 @@ type config struct {
 }
 
 func loadEnv() (*config, error) {
-	// ignore error in case if `.env` does not exist.
-	// In that case, no env var will be loaded.
 	err := godotenv.Load()
 	if err != nil {
 		return nil, err
