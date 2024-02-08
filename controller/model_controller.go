@@ -12,8 +12,23 @@ import (
 var listViewTmpl = template.Must(template.ParseFiles("view/model/listview.html"))
 var errorTmpl = template.Must(template.ParseFiles("view/error.html"))
 
-func ListModel(w http.ResponseWriter, r *http.Request) {
-	models, err := repository.GetModels()
+type Model interface {
+	ListModel(w http.ResponseWriter, r *http.Request)
+	GetModel(w http.ResponseWriter, r *http.Request)
+}
+
+type modelController struct {
+	repo *repository.Repository
+}
+
+func NewModel(repo *repository.Repository) Model {
+	return &modelController{
+		repo: repo,
+	}
+}
+
+func (c *modelController) ListModel(w http.ResponseWriter, r *http.Request) {
+	models, err := c.repo.GetModels()
 	if err != nil {
 		log.Fatal(err)
 		errorTmpl.Execute(w, nil)
@@ -23,9 +38,9 @@ func ListModel(w http.ResponseWriter, r *http.Request) {
 	listViewTmpl.Execute(w, models)
 }
 
-func GetModel(w http.ResponseWriter, r *http.Request) {
+func (c *modelController) GetModel(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
-	model, err := repository.GetModel(id)
+	model, err := c.repo.GetModel(id)
 	if err != nil {
 		log.Fatal(err)
 		errorTmpl.Execute(w, nil)
