@@ -8,31 +8,29 @@ import (
 	_ "github.com/lib/pq"
 )
 
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "dummyuser"
-	password = "12345678"
-	dbname   = "dummydb"
-
-	maxLifeTime  = 30 * time.Second
-	maxIdleTime  = 5 * time.Second
-	maxOpenConns = 5
-	maxIdleConns = 1
-)
-
 func SetupDatabase() (*sql.DB, error) {
-	psqlConn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+	cfg, err := loadEnv()
+	if err != nil {
+		return nil, err
+	}
+
+	psqlConn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+		cfg.postgresHost,
+		cfg.postgresPort,
+		cfg.postgresUser,
+		cfg.postgresPassword,
+		cfg.postgresDatabaseName,
+	)
 
 	db, err := sql.Open("postgres", psqlConn)
 	if err != nil {
 		return nil, err
 	}
 
-	db.SetConnMaxLifetime(maxLifeTime)
-	db.SetConnMaxIdleTime(maxIdleTime)
-	db.SetMaxOpenConns(maxOpenConns)
-	db.SetMaxIdleConns(maxIdleConns)
+	db.SetConnMaxLifetime(time.Duration(cfg.maxLifeTime) * time.Second)
+	db.SetConnMaxIdleTime(time.Duration(cfg.maxIdleTime) * time.Second)
+	db.SetMaxOpenConns(cfg.maxOpenConns)
+	db.SetMaxIdleConns(cfg.maxIdleConns)
 
 	return db, nil
 }

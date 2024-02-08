@@ -1,0 +1,16 @@
+root = true
+
+[*]
+insert_final_newline = true
+
+[*.go]
+indent_size = 8
+indent_style = tab
+
+[*.{md, html}]
+indent_size = 4
+indent_style = space
+
+[Makefile]
+indent_size = 4
+indent_style = space
