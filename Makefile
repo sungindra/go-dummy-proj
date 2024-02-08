@@ -8,7 +8,7 @@ test:
 
 .PHONY: server/start
 server/start:
-	docker-compose -f docker-compose.yaml up -d
+	docker-compose -f docker-compose.yaml up -d --build
 
 .PHONY: server/stop
 server/stop:

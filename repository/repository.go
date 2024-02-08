@@ -26,7 +26,10 @@ func (r *Repository) GetModels() ([]model.Model, error) {
 	var models []model.Model
 	for queryResult.Next() {
 		var m model.Model
-		queryResult.Scan(&m.Id, &m.Attribute1)
+		err = queryResult.Scan(&m.Id, &m.Attribute1)
+		if err != nil {
+			return nil, err
+		}
 		models = append(models, m)
 	}
 

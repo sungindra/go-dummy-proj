@@ -30,7 +30,7 @@ func NewModel(repo *repository.Repository) Model {
 func (c *modelController) ListModel(w http.ResponseWriter, r *http.Request) {
 	models, err := c.repo.GetModels()
 	if err != nil {
-		log.Print(err)
+		log.Print("error when list model: " + err.Error())
 		errorTmpl.Execute(w, nil)
 		return
 	}
@@ -42,7 +42,7 @@ func (c *modelController) GetModel(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	model, err := c.repo.GetModel(id)
 	if err != nil {
-		log.Print(err)
+		log.Print("error when get model: " + err.Error())
 		errorTmpl.Execute(w, nil)
 		return
 	}
