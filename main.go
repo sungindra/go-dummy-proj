@@ -8,6 +8,7 @@ import (
 	"dummy/repository"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -25,5 +26,6 @@ func main() {
 
 	// route and start server
 	r := handler.HandleRouting(homeController, modelController, apiController)
-	log.Fatal(http.ListenAndServe(":8080", r))
+	port := os.Getenv("PORT")
+	log.Fatal(http.ListenAndServe(":"+port, r))
 }

@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: "postgres:16.1-bookworm"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "dummyuser"
+      POSTGRES_PASSWORD: "dummypassword"
+      POSTGRES_DB: "dummydb"
+    volumes:
+      - "pg_data:/var/lib/postgresql"
+  golang:
+    build: "."
+    ports:
+      - "8080:8080"
+
+volumes:
+  pg-data:

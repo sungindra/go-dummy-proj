@@ -7,16 +7,16 @@ import (
 
 type config struct {
 	//
-	postgresHost         string
-	postgresPort         int
-	postgresUser         string
-	postgresPassword     string
-	postgresDatabaseName string
+	postgresHost         string `env:"POSTGRES_HOST"`
+	postgresPort         int    `env:"POSTGRES_PORT" envDefault:"5432"`
+	postgresUser         string `env:"POSTGRESS_USER"`
+	postgresPassword     string `env:"POSTGRESS_PASSWORD"`
+	postgresDatabaseName string `env:"POSTGRES_DB"`
 	//
-	maxLifeTime  int
-	maxIdleTime  int
-	maxOpenConns int
-	maxIdleConns int
+	maxLifeTime  int `env:"DATABASE_MAX_LIFE_TIME"`
+	maxIdleTime  int `env:"DATABASE_MAX_IDLE_TIME"`
+	maxOpenConns int `env:"DATABASE_MAX_OPEN_CONNECTIONS"`
+	maxIdleConns int `env:"DATABASE_MAX_IDLE_CONNECTIONS"`
 }
 
 func loadEnv() (*config, error) {
