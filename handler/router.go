@@ -3,13 +3,11 @@ package handler
 import (
 	"dummy/controller"
 	"dummy/controller/api"
-	"log"
-	"net/http"
 
 	"github.com/go-chi/chi/v5"
 )
 
-func RouteHandler() {
+func handleRouting() *chi.Mux {
 	r := chi.NewRouter()
 
 	r.Get("/", controller.Index)
@@ -27,5 +25,5 @@ func RouteHandler() {
 		})
 	})
 
-	log.Fatal(http.ListenAndServe(":8080", r))
+	return r
 }

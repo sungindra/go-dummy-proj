@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	handler.RouteHandler()
+	handler.StartServer()
 }

@@ -1,11 +1,16 @@
 package api
 
 import (
-	"dummy/mock"
+	"dummy/repository"
 	"encoding/json"
+	"log"
 	"net/http"
 )
 
 func GetModels(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode(mock.MockModels())
+	models, err := repository.GetModels()
+	if err != nil {
+		log.Fatal(err)
+	}
+	json.NewEncoder(w).Encode(models)
 }
