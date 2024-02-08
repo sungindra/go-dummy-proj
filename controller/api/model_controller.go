@@ -24,7 +24,7 @@ func NewAPI(repo *repository.Repository) API {
 func (api *modelAPI) GetModels(w http.ResponseWriter, r *http.Request) {
 	models, err := api.repo.GetModels()
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 	json.NewEncoder(w).Encode(models)
 }
