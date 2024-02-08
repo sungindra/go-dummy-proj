@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: "dummypassword"
       POSTGRES_DB: "dummydb"
     volumes:
-      - "pg-data:/var/lib/postgresql"
+      - "pg-data:/var/lib/postgresql/data"
   golang:
     build: "."
     ports:
