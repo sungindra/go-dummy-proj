@@ -3,36 +3,38 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"time"
 
 	_ "github.com/lib/pq"
 )
 
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "dummyuser"
-	password = "12345678"
-	dbname   = "dummydb"
-
-	maxLifeTime  = 30 * time.Second
-	maxIdleTime  = 5 * time.Second
-	maxOpenConns = 5
-	maxIdleConns = 1
-)
-
 func SetupDatabase() (*sql.DB, error) {
-	psqlConn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-
-	db, err := sql.Open("postgres", psqlConn)
+	cfg, err := loadEnv()
 	if err != nil {
 		return nil, err
 	}
 
-	db.SetConnMaxLifetime(maxLifeTime)
-	db.SetConnMaxIdleTime(maxIdleTime)
-	db.SetMaxOpenConns(maxOpenConns)
-	db.SetMaxIdleConns(maxIdleConns)
+	log.Printf("cfg = %#v", cfg)
+
+	psqlConn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable search_path=public",
+		cfg.PostgresHost,
+		cfg.PostgresPort,
+		cfg.PostgresUser,
+		cfg.PostgresPassword,
+		cfg.PostgresDatabaseName,
+	)
+
+	db, err := sql.Open("postgres", psqlConn)
+	if err != nil {
+		log.Printf("database open connection error: " + err.Error())
+		return nil, err
+	}
+
+	db.SetConnMaxLifetime(time.Duration(cfg.MaxLifeTime) * time.Second)
+	db.SetConnMaxIdleTime(time.Duration(cfg.MaxIdleTime) * time.Second)
+	db.SetMaxOpenConns(cfg.MaxOpenConns)
+	db.SetMaxIdleConns(cfg.MaxIdleConns)
 
 	return db, nil
 }
